@@ -14,10 +14,11 @@ class HashTable:
 
         while self.table[index] is not None and self.table[index] != "DELETED":
             index = (index + 1) % self.size
-            if index == start_index:  # Table is full
+            if index == start_index:
                 print("Hash table is full. Cannot insert", key)
                 return
         self.table[index] = key
+        print("Inserted", key)
 
     # Search for a key
     def search(self, key):
@@ -28,7 +29,7 @@ class HashTable:
             if self.table[index] == key:
                 return index
             index = (index + 1) % self.size
-            if index == start_index:  # Looped back
+            if index == start_index:
                 break
         return -1
 
@@ -43,25 +44,55 @@ class HashTable:
 
     # Display the table
     def display(self):
+        print("\nHash Table:")
         for i in range(self.size):
             print(i, ":", self.table[i])
+        print()
 
 
-# ---------------- Example Usage ----------------
-ht = HashTable(7)   # hash table of size 7
+# ----------- Menu-Driven Program -----------
+def main():
+    size = int(input("Enter the size of the hash table: "))
+    ht = HashTable(size)
 
-ht.insert(10)
-ht.insert(20)
-ht.insert(15)
-ht.insert(7)
+    while True:
+        print("\n==== Hash Table Menu ====")
+        print("1. Insert")
+        print("2. Search")
+        print("3. Delete")
+        print("4. Display")
+        print("5. Exit")
 
-print("\nHash Table after insertions:")
-ht.display()
+        choice = input("Enter your choice (1-5): ")
 
-print("\nSearching 15:", "Found at index" if ht.search(15) != -1 else "Not Found")
-print("Searching 99:", "Found at index" if ht.search(99) != -1 else "Not Found")
+        if choice == '1':
+            key = int(input("Enter key to insert: "))
+            ht.insert(key)
 
-ht.delete(20)
+        elif choice == '2':
+            key = int(input("Enter key to search: "))
+            index = ht.search(key)
+            if index != -1:
+                print("Key found at index:", index)
+            else:
+                print("Key not found.")
 
-print("\nHash Table after deleting 20:")
-ht.display()
+        elif choice == '3':
+            key = int(input("Enter key to delete: "))
+            ht.delete(key)
+
+        elif choice == '4':
+            ht.display()
+
+        elif choice == '5':
+            print("Exiting program.")
+            break
+
+        else:
+            print("Invalid choice. Please enter a number between 1 and 5.")
+
+
+# Run the program
+if __name__ == "__main__":
+    main()
+
